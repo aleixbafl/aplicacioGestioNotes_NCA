@@ -1,18 +1,20 @@
 package org.example;
 
-public class secretari extends persona{
-    private int seguretatSocial;
+import java.io.Serializable;
 
-    public secretari(String DNI, String nom, String cognom, int seguretatSocial) {
+public class secretari extends persona implements Serializable {
+    private String seguretatSocial;
+
+    public secretari(String DNI, String nom, String cognom, String seguretatSocial) {
         super(DNI, nom, cognom);
         this.seguretatSocial = seguretatSocial;
     }
 
-    public void setSeguretatSocial(int seguretatSocial) {
+    public void setSeguretatSocial(String seguretatSocial) {
         this.seguretatSocial = seguretatSocial;
     }
 
-    public int getSeguretatSocial() {
+    public String getSeguretatSocial() {
         return seguretatSocial;
     }
 

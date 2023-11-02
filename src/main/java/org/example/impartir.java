@@ -1,8 +1,9 @@
 package org.example;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class impartir {
+public class impartir implements Serializable {
     private String nomAsignatura;
     private String dniProfessor;
     private String dniAlumne;

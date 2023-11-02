@@ -1,6 +1,8 @@
 package org.example;
 
-public class curs {
+import java.io.Serializable;
+
+public class curs implements Serializable {
     private String nom;
     private boolean finalitzat;
     private float notaFinal;

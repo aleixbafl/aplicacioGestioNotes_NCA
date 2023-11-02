@@ -1,6 +1,8 @@
 package org.example;
 
-public class asignatura extends curs{
+import java.io.Serializable;
+
+public class asignatura extends curs implements Serializable {
     private String nom, tema;
     private int hores;
 

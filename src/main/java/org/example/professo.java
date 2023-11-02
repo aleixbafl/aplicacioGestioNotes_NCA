@@ -1,6 +1,8 @@
 package org.example;
 
-public class professo extends persona{
+import java.io.Serializable;
+
+public class professo extends persona implements Serializable {
     private int seguretatSocial;
 
     public professo(String DNI, String nom, String cognom, int seguretatSocial) {

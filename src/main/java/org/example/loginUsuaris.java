@@ -1,6 +1,8 @@
 package org.example;
 
-public class loginUsuaris {
+import java.io.Serializable;
+
+public class loginUsuaris implements Serializable {
     private String dni;
     private String contrasenya;
     private boolean secretati;

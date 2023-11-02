@@ -1,6 +1,8 @@
 package org.example;
 
-public class persona {
+import java.io.Serializable;
+
+public class persona implements Serializable {
     private String DNI;
     private String nom;
     private String cognom;

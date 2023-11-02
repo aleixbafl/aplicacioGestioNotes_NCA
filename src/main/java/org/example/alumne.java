@@ -1,6 +1,8 @@
 package org.example;
 
-public class alumne extends persona{
+import java.io.Serializable;
+
+public class alumne extends persona implements Serializable {
     private String expedient;
     private String matricula;
 

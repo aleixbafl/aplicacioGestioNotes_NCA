@@ -3,6 +3,7 @@ package org.example;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -18,6 +19,7 @@ public class Main {
         File rutaTotsArxius = ubicacioArxius(lector);//Crear un objecte File amb una ruta introduïda per teclat
 
         confirmaRutaUsuaari(rutaTotsArxius, lector);//Preguntar a l'usuari si està segur de la ruta introduïda
+
         boolean secretari = false;
 
         String usuari = loginUsuari(lector, secretari, rutaTotsArxius);
@@ -29,21 +31,17 @@ public class Main {
         System.out.println("\nLogin");
         do {
             System.out.println("\nIntrodueix el teu DNI:");
-            DNI = lleguirString(lector);
-            while (!validarDNI(DNI)){
-                System.out.println("El DNI es incorrecte:");
-                DNI = lleguirString(lector);
-            }
+            DNI = validarDNI(lector);
 
             System.out.println("\nIntrodueix la teva contrasenya:");
             contrasenya = lleguirString(lector);
-        } while (!comprobarUsuari(secretari, DNI, contrasenya, rutaTotsArxius));
+        } while (!comprobarUsuari(secretari, DNI, contrasenya, rutaTotsArxius, lector));
 
         return DNI;
     }
 
-    private boolean comprobarUsuari(boolean secretari, String dni, String contrasenya, File rutaTotsArxius) {
-        File arxiuUsuaris = new File(rutaTotsArxius.getPath() + "usuaris.txt");
+    private boolean comprobarUsuari(boolean secretari, String dni, String contrasenya, File rutaTotsArxius, Scanner lector) {
+        File arxiuUsuaris = new File(rutaTotsArxius.getPath() + "\\" + "usuaris.txt");
         if (arxiuUsuaris.exists()){
             try {
                 FileInputStream fis = new FileInputStream(arxiuUsuaris);
@@ -55,31 +53,78 @@ public class Main {
                 while ((fis.available()>0) && !usuariExist){
                     loginUsuaris usuari = (loginUsuaris) ois.readObject();
                     if (usuari.getDni() == dni){
-                        if (usuari.getContrasenya() == contrasenya){
+                        if (BCrypt.checkpw(contrasenya, usuari.getContrasenya())){
                             System.out.println("\nUsuari correcte");
                             usuariExist = true;
+                            ois.close();
+                            fis.close();
                             return usuariExist;
                         } else {
                             System.out.println("\nLa contrasenya introduïda és incorrecta.");
                         }
                     }
                 }
+                ois.close();
+                fis.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
+
         } else {
             System.out.println("\nL'arxiu dels usuaris no existeix.");
-            File arxiuSecretari = new File(rutaTotsArxius.getPath() + "secretari.txt");
+            File arxiuSecretari = new File(rutaTotsArxius.getPath() + "\\" + "secretari.txt");
             if (arxiuSecretari.exists()){
                 try {
                     FileInputStream fis = new FileInputStream(arxiuSecretari);
                     ObjectInputStream ois = new ObjectInputStream(fis);
-                    while (fis.available() > 0){
-
+                    if (fis.available() == 0){
+                        crearSecretari(lector, rutaTotsArxius);
                     }
+                    FileOutputStream fos = new FileOutputStream(rutaTotsArxius.getPath() + "\\" + "usuaris.txt");
+                    ObjectOutputStream oos = new ObjectOutputStream(fos);
+                    while (fis.available() > 0){
+                        secretari secretaris = (secretari) ois.readObject();
+                        System.out.println("\nIntrodueix una contrasenya per al/la secrtari/ària " + secretaris.getNom() + secretaris.getCognom() +":");
+                        String contrEncrip = contraseEncript(lector);
+                        System.out.println(contrEncrip);
+                        loginUsuaris usuari = new loginUsuaris(secretaris.getDNI(), contrEncrip, true);
+                        oos.writeObject(usuari);
+                    }
+                    oos.close();
+                    fos.close();
+                    ois.close();
+                    fis.close();
                 } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                crearSecretari(lector, rutaTotsArxius);
+                try {
+                    FileInputStream fis = new FileInputStream(arxiuSecretari.getPath());
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+                    FileOutputStream fos = new FileOutputStream(rutaTotsArxius.getPath() + "\\" + "usuaris.txt");
+                    ObjectOutputStream oos = new ObjectOutputStream(fos);
+                    while (fis.available() > 0){
+                        secretari secretaris = (secretari) ois.readObject();
+                        System.out.println("\nIntrodueix una contrasenya per al/la secrtari/ària " + secretaris.getNom() + " " + secretaris.getCognom() +":");
+                        String contrEncrip = contraseEncript(lector);
+                        loginUsuaris usuari = new loginUsuaris(secretaris.getDNI(), contrEncrip, true);
+                        System.out.println(secretaris.getDNI());
+                        System.out.println(usuari.getDni());
+                        System.out.println(usuari.getContrasenya());
+                        oos.writeObject(usuari);
+                    }
+                    oos.close();
+                    fos.close();
+                    ois.close();
+                    fis.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -87,29 +132,110 @@ public class Main {
         return false;
     }
 
-    private boolean validarDNI(String dni) {
-        dni = dni.trim().toUpperCase();
-        if (dni.length() != 9) {
-            return false;
+    private void crearSecretari(Scanner lector, File rutaTotsArxius) {
+        try {
+            File rutaSecretari = new File(rutaTotsArxius.getPath() + "\\" + "secretari.txt");
+            if (rutaSecretari.exists()){
+                ArrayList<secretari> secretarisAL = new ArrayList<>();
+                FileInputStream fis = new FileInputStream(rutaSecretari.getPath());
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                while (fis.available() > 0){
+                    secretari unSecretari = (secretari) ois.readObject();
+                    secretarisAL.add(unSecretari);
+                }
+                ois.close();
+                fis.close();
+                System.out.println("\nQuants secretaris/es vols introduir?");
+                int numSecret = validarInt(lector);
+                while (numSecret < 0){
+                    System.out.println("No pots introduir menys de 0 secretaris/es:");
+                    numSecret = validarInt(lector);
+                }
+                for (int i = 0; i < numSecret; i++){
+                    secretari unSecretari = obtenirCrearSecretari(lector);
+                    secretarisAL.add(unSecretari);
+                }
+                FileOutputStream fos = new FileOutputStream(rutaSecretari.getPath());
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                for (secretari unSecretari:secretarisAL){
+                    oos.writeObject(unSecretari);
+                }
+                oos.close();
+                fos.close();
+            } else {
+                FileOutputStream fos = new FileOutputStream(rutaSecretari.getPath());
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                System.out.println("\nQuants secretaris/es vols introduir?");
+                int numSecret = validarInt(lector);
+                while (numSecret < 0){
+                    System.out.println("No pots introduir menys de 0 secretaris/es:");
+                    numSecret = validarInt(lector);
+                }
+                for (int i = 0; i < numSecret; i++){
+                    secretari unSecretari = obtenirCrearSecretari(lector);
+                    oos.writeObject(unSecretari);
+                }
+                oos.close();
+                fos.close();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-
-        //Separa els numeros de la lletra
-        String numeros = dni.substring(0, 8);
-        char letra = dni.charAt(8);
-
-        //Verificar que els primers 8 diguits siguin numeros
-        if (!numeros.matches("[0-9]+")) {
-            return false;
-        }
-
-        //Calcular la lletra corresponent als numeros
-        int numDNI = Integer.parseInt(numeros);
-        String letrasValidas = "TRWAGMYFPDXBNJZSQVHLCKE";
-        char letraCalculada = letrasValidas.charAt(numDNI % 23);
-
-        // Comparar la letra calculada con la letra proporcionada
-        return letra == letraCalculada;
     }
+
+    private secretari obtenirCrearSecretari(Scanner lector) {
+        System.out.println("\nIntrodueix el DNI:");
+        String dni = validarDNI(lector);
+        System.out.println("\nNom:");
+        String nom = lector.nextLine();
+        System.out.println("\nCognom/s:");
+        String cognom = lector.nextLine();
+        System.out.println("\nSeguretat Social:");
+        String seguretatSocial = lector.nextLine();
+        secretari unSecretari = new secretari(dni, nom,cognom, seguretatSocial);
+        return unSecretari;
+    }
+
+    private String contraseEncript(Scanner lector) {
+        String contrasenya = lector.nextLine();
+        String encriptat = BCrypt.hashpw(contrasenya, BCrypt.gensalt());
+        return encriptat;
+    }
+
+    private String validarDNI(Scanner lector) {
+        boolean correcto = false;
+        String dni = "";
+
+        do {
+            dni = lector.nextLine().trim().toUpperCase();
+
+            if (dni.length() == 9) {
+                String numeros = dni.substring(0, 8);
+                char letra = dni.charAt(8);
+
+                if (numeros.matches("[0-9]+")) {
+                    int numDNI = Integer.parseInt(numeros);
+                    String letrasValidas = "TRWAGMYFPDXBNJZSQVHLCKE";
+                    char letraCalculada = letrasValidas.charAt(numDNI % 23);
+
+                    if (letra == letraCalculada) {
+                        correcto = true;
+                    } else {
+                        System.out.println("La letra del DNI no es válida. Inténtalo de nuevo.");
+                    }
+                } else {
+                    System.out.println("Los primeros 8 caracteres del DNI no son números. Inténtalo de nuevo.");
+                }
+            } else {
+                System.out.println("El DNI no tiene la longitud adecuada. Inténtalo de nuevo.");
+            }
+        } while (!correcto);
+
+        return dni;
+    }
+
 
     private String lleguirString(Scanner lector) {
         String introduirString = lector.nextLine();
@@ -215,7 +341,7 @@ public class Main {
         System.out.println("Introdueix els cognoms del secretari");
         String cognomsSecretari = lleguirString(lector);
         System.out.println("Introdueix el seu numero de la SS");
-        int numeroSSSecretari = validarInt(lector);
+        String numeroSSSecretari = lector.nextLine();
 
         secretari NouSecretari = new secretari(DNISecretari,nomSecretari,cognomsSecretari,numeroSSSecretari);
 
