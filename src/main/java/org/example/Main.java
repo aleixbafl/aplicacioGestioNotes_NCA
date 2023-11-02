@@ -20,32 +20,71 @@ public class Main {
         confirmaRutaUsuaari(rutaTotsArxius, lector);//Preguntar a l'usuari si està segur de la ruta introduïda
         boolean secretari = false;
 
-        String usuari = loginUsuari(lector, secretari);
+        String usuari = loginUsuari(lector, secretari, rutaTotsArxius);
 
     }
 
-    private String loginUsuari(Scanner lector, boolean secretari) {
+    private String loginUsuari(Scanner lector, boolean secretari, File rutaTotsArxius) {
         String DNI = "", contrasenya = "";
         System.out.println("\nLogin");
-        System.out.println("Introdueix el teu DNI:");
-        DNI = lleguirString(lector);
-        while (!validarDNI(DNI)){
-            System.out.println("El DNI es incorrecte:");
-            DNI = lleguirString(lector);
-        }
-
-        System.out.println("\nIntrodueix la teva contrasenya:");
-        contrasenya = lleguirString(lector);
-
         do {
+            System.out.println("\nIntrodueix el teu DNI:");
+            DNI = lleguirString(lector);
+            while (!validarDNI(DNI)){
+                System.out.println("El DNI es incorrecte:");
+                DNI = lleguirString(lector);
+            }
 
-        } while (comprobarUsuari(secretari, DNI, contrasenya));
+            System.out.println("\nIntrodueix la teva contrasenya:");
+            contrasenya = lleguirString(lector);
+        } while (!comprobarUsuari(secretari, DNI, contrasenya, rutaTotsArxius));
 
         return DNI;
     }
 
-    private boolean comprobarUsuari(boolean secretari, String dni, String contrasenya) {
-        
+    private boolean comprobarUsuari(boolean secretari, String dni, String contrasenya, File rutaTotsArxius) {
+        File arxiuUsuaris = new File(rutaTotsArxius.getPath() + "usuaris.txt");
+        if (arxiuUsuaris.exists()){
+            try {
+                FileInputStream fis = new FileInputStream(arxiuUsuaris);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                boolean usuariExist = false;
+                if (fis.available() == 0){
+                    System.out.println("\nNo hi ha cap usuari guardat.");
+                }
+                while ((fis.available()>0) && !usuariExist){
+                    loginUsuaris usuari = (loginUsuaris) ois.readObject();
+                    if (usuari.getDni() == dni){
+                        if (usuari.getContrasenya() == contrasenya){
+                            System.out.println("\nUsuari correcte");
+                            usuariExist = true;
+                            return usuariExist;
+                        } else {
+                            System.out.println("\nLa contrasenya introduïda és incorrecta.");
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.println("\nL'arxiu dels usuaris no existeix.");
+            File arxiuSecretari = new File(rutaTotsArxius.getPath() + "secretari.txt");
+            if (arxiuSecretari.exists()){
+                try {
+                    FileInputStream fis = new FileInputStream(arxiuSecretari);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+                    while (fis.available() > 0){
+
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return false;
     }
 
     private boolean validarDNI(String dni) {
