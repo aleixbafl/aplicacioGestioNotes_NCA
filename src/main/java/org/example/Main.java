@@ -209,7 +209,7 @@ public class Main {
     //INSERTAR SECRETARI
     private void InsertarSecretari(Scanner lector){
         System.out.println("Introdueix el DNI del secretari ");
-        String DNISecretari = validarDNI(lector);
+        String DNISecretari = lleguirString(lector);
         System.out.println("Introdueix el nom del secretari");
         String nomSecretari = lleguirString(lector);
         System.out.println("Introdueix els cognoms del secretari");
@@ -224,7 +224,7 @@ public class Main {
     //INSERTAR ALUMNES
     private void InsertarAlumnes(Scanner lector){
         System.out.println("Introdueix el DNI de l'alumne");
-        String DNI = validarDNI(lector);
+        String DNI = lleguirString(lector);
         System.out.println("Introdueix el nom de l'alumne");
         String nomAlumne = lleguirString(lector);
         System.out.println("Introdueix els cognoms de l'alumne");
@@ -264,7 +264,7 @@ public class Main {
     //INSERTAR PROFESSOR
     private void InsertarProfessor(Scanner lector){
         System.out.println("Introdueix el DNI del professor");
-        String DNIProfessor = validarDNI(lector);
+        String DNIProfessor = lleguirString(lector);
         System.out.println("Introdueix el nom del professor");
         String nomProfessor = lleguirString(lector);
         System.out.println("Introdueix els cognoms del professor");
