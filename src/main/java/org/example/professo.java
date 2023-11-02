@@ -1,18 +1,18 @@
 package org.example;
 
 public class professo extends persona{
-    private String seguretatSocial;
+    private int seguretatSocial;
 
-    public professo(String DNI, String nom, String cognom, String seguretatSocial) {
+    public professo(String DNI, String nom, String cognom, int seguretatSocial) {
         super(DNI, nom, cognom);
         this.seguretatSocial = seguretatSocial;
     }
 
-    public String getSeguretatSocial() {
+    public int getSeguretatSocial() {
         return seguretatSocial;
     }
 
-    public void setSeguretatSocial(String seguretatSocial) {
+    public void setSeguretatSocial(int seguretatSocial) {
         this.seguretatSocial = seguretatSocial;
     }
 

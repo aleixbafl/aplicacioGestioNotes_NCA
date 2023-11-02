@@ -204,4 +204,99 @@ public class Main {
         }while (valorCorrecte == false);
         return numero;
     }
+
+
+    //INSERTAR SECRETARI
+    private void InsertarSecretari(Scanner lector){
+        System.out.println("Introdueix el DNI del secretari ");
+        String DNISecretari = validarDNI(lector);
+        System.out.println("Introdueix el nom del secretari");
+        String nomSecretari = lleguirString(lector);
+        System.out.println("Introdueix els cognoms del secretari");
+        String cognomsSecretari = lleguirString(lector);
+        System.out.println("Introdueix el seu numero de la SS");
+        int numeroSSSecretari = validarInt(lector);
+
+        secretari NouSecretari = new secretari(DNISecretari,nomSecretari,cognomsSecretari,numeroSSSecretari);
+
+        System.out.println("Nou professor creat:\n" + NouSecretari.toString());
+    }
+    //INSERTAR ALUMNES
+    private void InsertarAlumnes(Scanner lector){
+        System.out.println("Introdueix el DNI de l'alumne");
+        String DNI = validarDNI(lector);
+        System.out.println("Introdueix el nom de l'alumne");
+        String nomAlumne = lleguirString(lector);
+        System.out.println("Introdueix els cognoms de l'alumne");
+        String cognomsAlumne = lleguirString(lector);
+        System.out.println("Introdueix l'expedient de l'alumne");
+        String expedientAlumne = lleguirString(lector);
+        System.out.println("Introdueix la matricula de l'alumne");
+        String matriculaAlumne = lleguirString(lector);
+
+        alumne NouAlumne = new alumne(DNI,nomAlumne,cognomsAlumne,expedientAlumne,matriculaAlumne);
+
+        System.out.println("Nou alumne creat:\n" + NouAlumne.toString());
+    }
+    //INSERTAR ASSIGNATURA
+    private void InsertarAssignatura(Scanner lector){
+        System.out.print("Introdueix el nom de l'Assignatura: ");
+        String nomAsignatura = lleguirString(lector);
+
+        System.out.print("¿Está finalitzada? (true/false): ");
+        boolean finalitzat = lector.nextBoolean();
+
+        System.out.print("Introdueix la nota final: ");
+        float notaFinal = lector.nextFloat();
+
+        lector.nextLine();//Netejar
+
+        System.out.print("Introdueix el tema: ");
+        String tema = lleguirString(lector);
+
+        System.out.print("Introdueix el número d'hores: ");
+        int hores = validarInt(lector);
+
+        asignatura novaAsignatura = new asignatura(nomAsignatura, finalitzat, notaFinal, nomAsignatura, tema, hores);
+
+        System.out.println("Nova assignatura creada:\n" + novaAsignatura.toString());
+    }
+    //INSERTAR PROFESSOR
+    private void InsertarProfessor(Scanner lector){
+        System.out.println("Introdueix el DNI del professor");
+        String DNIProfessor = validarDNI(lector);
+        System.out.println("Introdueix el nom del professor");
+        String nomProfessor = lleguirString(lector);
+        System.out.println("Introdueix els cognoms del professor");
+        String cognomsProfessor = lleguirString(lector);
+        System.out.println("Introdueix el seu numero de la SS");
+        int numeroSSProfessor = validarInt(lector);
+
+        professo NouProfessor = new professo(DNIProfessor,nomProfessor,cognomsProfessor,numeroSSProfessor);
+
+        System.out.println("Nou professor creat:\n" + NouProfessor.toString());
+    }
+    //OPCIONS PROFESSOR
+    private void OpcionsProfessor(){
+        System.out.println("Quina acció vols realitzar?");
+        System.out.println("\n1- Insertar Notes");
+        System.out.println("2- Modificar Notes");
+        System.out.println("3- Eliminar Notes");
+        System.out.println("4- Tancar ");
+    }
+    //OPCIONS SECRETARIA
+    private void OpcionesSecretaria(){
+        System.out.println("Quina acció vols realitzar?");
+        //Professors
+        System.out.println("\n1- Introduir nous Professors");
+        System.out.println("2- Treure Professors ");
+        //Secretaris
+        System.out.println("\n3- Introduir Secretaris/es ");
+        System.out.println("4- Treure Secretaris/es");
+        //Alumnes
+        System.out.println("\n5- Insertar nous Alumnes");
+        System.out.println("6- Treure Alumnes");
+        System.out.println("7- Veure notes dels Alumnes");
+    }
+
 }
