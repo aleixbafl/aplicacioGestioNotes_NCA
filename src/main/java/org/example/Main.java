@@ -199,12 +199,6 @@ public class Main {
         return unSecretari;
     }
 
-    private String contraseEncript(Scanner lector) {
-        String contrasenya = lector.nextLine();
-        String encriptat = BCrypt.hashpw(contrasenya, BCrypt.gensalt());
-        return encriptat;
-    }
-
     private String validarDNI(Scanner lector) {
         boolean correcto = false;
         String dni = "";
