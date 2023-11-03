@@ -329,95 +329,174 @@ public class Main {
 
     //INSERTAR SECRETARI
     private void InsertarSecretari(Scanner lector){
-        System.out.println("Introdueix el DNI del secretari ");
-        String DNISecretari = lleguirString(lector);
-        System.out.println("Introdueix el nom del secretari");
-        String nomSecretari = lleguirString(lector);
-        System.out.println("Introdueix els cognoms del secretari");
-        String cognomsSecretari = lleguirString(lector);
-        System.out.println("Introdueix el seu numero de la SS");
-        String numeroSSSecretari = lector.nextLine();
+        try{
+            System.out.println("Introdueix el DNI del secretari ");
+            String DNISecretari = lleguirString(lector);
+            System.out.println("Introdueix el nom del secretari");
+            String nomSecretari = lleguirString(lector);
+            System.out.println("Introdueix els cognoms del secretari");
+            String cognomsSecretari = lleguirString(lector);
+            System.out.println("Introdueix el seu numero de la SS");
+            String numeroSSSecretari = lector.nextLine();
 
-        secretari NouSecretari = new secretari(DNISecretari,nomSecretari,cognomsSecretari,numeroSSSecretari);
+            secretari NouSecretari = new secretari(DNISecretari,nomSecretari,cognomsSecretari,numeroSSSecretari);
 
-        System.out.println("Nou professor creat:\n" + NouSecretari.toString());
+            System.out.println("Introdueix la ruta i el nom del fitxer (ex: C:\\carpeta\\alumnes.txt):");
+            String ruta = lleguirString(lector);
+
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta, true));
+            oos.writeObject(NouSecretari);
+            oos.close();
+
+            System.out.println("Dades del secretari guardades correctament.");
+
+        } catch (IOException e){
+            System.out.println("Error al escriure l'arxiu: " + e.getMessage());
+        }
     }
     //INSERTAR ALUMNES
     private void InsertarAlumnes(Scanner lector){
-        System.out.println("Introdueix el DNI de l'alumne");
-        String DNI = lleguirString(lector);
-        System.out.println("Introdueix el nom de l'alumne");
-        String nomAlumne = lleguirString(lector);
-        System.out.println("Introdueix els cognoms de l'alumne");
-        String cognomsAlumne = lleguirString(lector);
-        System.out.println("Introdueix l'expedient de l'alumne");
-        String expedientAlumne = lleguirString(lector);
-        System.out.println("Introdueix la matricula de l'alumne");
-        String matriculaAlumne = lleguirString(lector);
+        try {
+            System.out.println("Introdueix el DNI de l'alumne");
+            String DNI = lleguirString(lector);
+            System.out.println("Introdueix el nom de l'alumne");
+            String nomAlumne = lleguirString(lector);
+            System.out.println("Introdueix els cognoms de l'alumne");
+            String cognomsAlumne = lleguirString(lector);
+            System.out.println("Introdueix l'expedient de l'alumne");
+            String expedientAlumne = lleguirString(lector);
+            System.out.println("Introdueix la matricula de l'alumne");
+            String matriculaAlumne = lleguirString(lector);
 
-        alumne NouAlumne = new alumne(DNI,nomAlumne,cognomsAlumne,expedientAlumne,matriculaAlumne);
+            alumne NouAlumne = new alumne(DNI, nomAlumne, cognomsAlumne, expedientAlumne, matriculaAlumne);
 
-        System.out.println("Nou alumne creat:\n" + NouAlumne.toString());
+            System.out.println("Introdueix la ruta i el nom del fitxer (ex: C:\\carpeta\\alumnes.dat):");
+            String ruta = lleguirString(lector);
+
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta, true));
+            oos.writeObject(NouAlumne);
+            oos.close();
+
+            System.out.println("Dades de l'alumne guardades correctament.");
+
+        } catch (IOException e) {
+            System.out.println("Error al escriure l'arxiu: " + e.getMessage());
+        }
     }
+
     //INSERTAR ASSIGNATURA
     private void InsertarAssignatura(Scanner lector){
-        System.out.print("Introdueix el nom de l'Assignatura: ");
-        String nomAsignatura = lleguirString(lector);
+        try {
+            System.out.print("Introdueix el nom de l'Assignatura: ");
+            String nomAsignatura = lleguirString(lector);
 
-        System.out.print("¿Está finalitzada? (true/false): ");
-        boolean finalitzat = lector.nextBoolean();
+            System.out.print("¿Está finalitzada? (true/false): ");
+            boolean finalitzat = lector.nextBoolean();
 
-        System.out.print("Introdueix la nota final: ");
-        float notaFinal = lector.nextFloat();
+            System.out.print("Introdueix la nota final: ");
+            float notaFinal = lector.nextFloat();
 
-        lector.nextLine();//Netejar
+            lector.nextLine();//Netejar
 
-        System.out.print("Introdueix el tema: ");
-        String tema = lleguirString(lector);
+            System.out.print("Introdueix el tema: ");
+            String tema = lleguirString(lector);
 
-        System.out.print("Introdueix el número d'hores: ");
-        int hores = validarInt(lector);
+            System.out.print("Introdueix el número d'hores: ");
+            int hores = validarInt(lector);
 
-        asignatura novaAsignatura = new asignatura(nomAsignatura, finalitzat, notaFinal, nomAsignatura, tema, hores);
+            asignatura novaAsignatura = new asignatura(nomAsignatura, finalitzat, notaFinal, nomAsignatura, tema, hores);
 
-        System.out.println("Nova assignatura creada:\n" + novaAsignatura.toString());
+            System.out.println("Introdueix la ruta i el nom del fitxer (ex: C:\\carpeta\\alumnes.dat):");
+            String ruta = lleguirString(lector);
+
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta, true));
+            oos.writeObject(novaAsignatura);
+            oos.close();
+
+            System.out.println("Dades de la assignatura guardades correctament.");
+
+        } catch (IOException e) {
+            System.out.println("Error al escriure l'arxiu: " + e.getMessage());
+        }
     }
     //INSERTAR PROFESSOR
     private void InsertarProfessor(Scanner lector){
-        System.out.println("Introdueix el DNI del professor");
-        String DNIProfessor = lleguirString(lector);
-        System.out.println("Introdueix el nom del professor");
-        String nomProfessor = lleguirString(lector);
-        System.out.println("Introdueix els cognoms del professor");
-        String cognomsProfessor = lleguirString(lector);
-        System.out.println("Introdueix el seu numero de la SS");
-        int numeroSSProfessor = validarInt(lector);
+        try{
+            System.out.println("Introdueix el DNI del professor");
+            String DNIProfessor = lleguirString(lector);
+            System.out.println("Introdueix el nom del professor");
+            String nomProfessor = lleguirString(lector);
+            System.out.println("Introdueix els cognoms del professor");
+            String cognomsProfessor = lleguirString(lector);
+            System.out.println("Introdueix el seu numero de la SS");
+            int numeroSSProfessor = validarInt(lector);
 
-        professo NouProfessor = new professo(DNIProfessor,nomProfessor,cognomsProfessor,numeroSSProfessor);
+            professo NouProfessor = new professo(DNIProfessor,nomProfessor,cognomsProfessor,numeroSSProfessor);
 
-        System.out.println("Nou professor creat:\n" + NouProfessor.toString());
+            System.out.println("Introdueix la ruta i el nom del fitxer (ex: C:\\carpeta\\alumnes.dat):");
+            String ruta = lleguirString(lector);
+
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta, true));
+            oos.writeObject(NouProfessor);
+            oos.close();
+
+            System.out.println("Dades del professor guardades correctament.");
+        } catch (IOException e) {
+            System.out.println("Error al escriure l'arxiu: " + e.getMessage());
+        }
     }
     //OPCIONS PROFESSOR
-    private void OpcionsProfessor(){
-        System.out.println("Quina acció vols realitzar?");
-        System.out.println("\n1- Insertar Notes");
-        System.out.println("2- Modificar Notes");
-        System.out.println("3- Eliminar Notes");
-        System.out.println("4- Tancar ");
+    private void OpcionsProfessor(Scanner lector){
+        int opcio = 0;
+
+        while(opcio!=4){
+            System.out.println("Quina acció vols realitzar?");
+            System.out.println("\n1- Insertar Notes");
+            System.out.println("2- Modificar Notes");
+            System.out.println("3- Eliminar Notes");
+            System.out.println("4- Tancar ");
+
+            opcio = validarInt(lector);
+
+            if(opcio==1){
+            }else if(opcio == 2){
+            }else if(opcio == 3){
+            }else if(opcio == 4){
+                Notes();
+            }
+        }
     }
     //OPCIONS SECRETARIA
-    private void OpcionesSecretaria(){
-        System.out.println("Quina acció vols realitzar?");
-        //Professors
-        System.out.println("\n1- Introduir nous Professors");
-        System.out.println("2- Treure Professors ");
-        //Secretaris
-        System.out.println("\n3- Introduir Secretaris/es ");
-        System.out.println("4- Treure Secretaris/es");
-        //Alumnes
-        System.out.println("\n5- Insertar nous Alumnes");
-        System.out.println("6- Treure Alumnes");
-        System.out.println("7- Veure notes dels Alumnes");
+    private void OpcionesSecretaria(Scanner lector){
+        int opcio = 0;
+
+        while(opcio!=8){
+            System.out.println("Quina acció vols realitzar?");
+            //Professors
+            System.out.println("\n1- Introduir nous Professors");
+            System.out.println("2- Treure Professors ");
+            //Secretaris
+            System.out.println("\n3- Introduir Secretaris/es ");
+            System.out.println("4- Treure Secretaris/es");
+            //Alumnes
+            System.out.println("\n5- Insertar nous Alumnes");
+            System.out.println("6- Treure Alumnes");
+            System.out.println("7- Veure notes dels Alumnes");
+            System.out.println("8- Tancar");
+
+            opcio = validarInt(lector);
+
+            if(opcio==1){
+            }else if(opcio == 2){
+            }else if(opcio == 3){
+            }else if(opcio == 4){
+            }else if(opcio == 5){
+            }else if(opcio == 6){
+            }else if(opcio == 7){
+            }else if(opcio == 8){
+                Notes();
+            }
+        }
     }
 
 }
