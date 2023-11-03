@@ -52,8 +52,8 @@ public class Main {
                 }
                 while ((fis.available()>0) && !usuariExist){
                     loginUsuaris usuari = (loginUsuaris) ois.readObject();
-                    if (usuari.getDni() == dni){
-                        if (BCrypt.checkpw(contrasenya, usuari.getContrasenya())){
+                    if (usuari.getDni().equals(dni)){
+                        if (usuari.getContrasenya().equals(contrasenya)){
                             System.out.println("\nUsuari correcte");
                             usuariExist = true;
                             ois.close();
@@ -62,6 +62,8 @@ public class Main {
                         } else {
                             System.out.println("\nLa contrasenya introduïda és incorrecta.");
                         }
+                    } else {
+                        System.out.println("El DNI es incorrecte o no esta reguistrat per a iniciar sessia.");
                     }
                 }
                 ois.close();
@@ -87,7 +89,7 @@ public class Main {
                     while (fis.available() > 0){
                         secretari secretaris = (secretari) ois.readObject();
                         System.out.println("\nIntrodueix una contrasenya per al/la secrtari/ària " + secretaris.getNom() + secretaris.getCognom() +":");
-                        String contrEncrip = contraseEncript(lector);
+                        String contrEncrip = lleguirString(lector);
                         System.out.println(contrEncrip);
                         loginUsuaris usuari = new loginUsuaris(secretaris.getDNI(), contrEncrip, true);
                         oos.writeObject(usuari);
@@ -113,7 +115,6 @@ public class Main {
                         System.out.println("\nIntrodueix una contrasenya per al/la secrtari/ària " + secretaris.getNom() + " " + secretaris.getCognom() +":");
                         String contrEncrip = contraseEncript(lector);
                         loginUsuaris usuari = new loginUsuaris(secretaris.getDNI(), contrEncrip, true);
-                        System.out.println(secretaris.getDNI());
                         System.out.println(usuari.getDni());
                         System.out.println(usuari.getContrasenya());
                         oos.writeObject(usuari);
@@ -223,13 +224,13 @@ public class Main {
                     if (letra == letraCalculada) {
                         correcto = true;
                     } else {
-                        System.out.println("La letra del DNI no es válida. Inténtalo de nuevo.");
+                        System.out.println("La lletra del DNI no es valid.");
                     }
                 } else {
-                    System.out.println("Los primeros 8 caracteres del DNI no son números. Inténtalo de nuevo.");
+                    System.out.println("Els primers 8 caracters no son números.");
                 }
             } else {
-                System.out.println("El DNI no tiene la longitud adecuada. Inténtalo de nuevo.");
+                System.out.println("El DNI no te els 9 caracters necessaris.");
             }
         } while (!correcto);
 
