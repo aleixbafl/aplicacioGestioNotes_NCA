@@ -113,7 +113,7 @@ public class Main {
                     while (fis.available() > 0){
                         secretari secretaris = (secretari) ois.readObject();
                         System.out.println("\nIntrodueix una contrasenya per al/la secrtari/ària " + secretaris.getNom() + " " + secretaris.getCognom() +":");
-                        String contrEncrip = contraseEncript(lector);
+                        String contrEncrip = lleguirString(lector);
                         loginUsuaris usuari = new loginUsuaris(secretaris.getDNI(), contrEncrip, true);
                         System.out.println(usuari.getDni());
                         System.out.println(usuari.getContrasenya());
