@@ -23,7 +23,13 @@ public class Main {
         boolean secretari = false;
 
         String usuari = loginUsuari(lector, secretari, rutaTotsArxius);
-
+        if (!usuari.equals("")){
+            if (secretari){
+                OpcionesSecretaria(lector, rutaTotsArxius);
+            } else {
+                OpcionsProfessor(lector);
+            }
+        }
     }
 
     private String loginUsuari(Scanner lector, boolean secretari, File rutaTotsArxius) {
@@ -36,7 +42,6 @@ public class Main {
             System.out.println("\nIntrodueix la teva contrasenya:");
             contrasenya = lleguirString(lector);
         } while (!comprobarUsuari(secretari, DNI, contrasenya, rutaTotsArxius, lector));
-
         return DNI;
     }
 
@@ -56,7 +61,6 @@ public class Main {
                         if (usuari.getContrasenya().equals(contrasenya)){
                             System.out.println("\nUsuari correcte");
                             usuariExist = true;
-                            secretari = usuari.get
                             ois.close();
                             fis.close();
                             return usuariExist;
@@ -468,11 +472,10 @@ public class Main {
         }
     }
     //OPCIONS SECRETARIA
-    private void OpcionesSecretaria(Scanner lector){
+    private void OpcionesSecretaria(Scanner lector, File rutaTotsArxius){
         int opcio = 0;
 
         while(opcio!=8){
-            System.out.println("Quina acció vols realitzar?");
             //Professors
             System.out.println("\n1- Introduir nous Professors");
             System.out.println("2- Treure Professors ");
@@ -484,8 +487,23 @@ public class Main {
             System.out.println("6- Treure Alumnes");
             System.out.println("7- Veure notes dels Alumnes");
             System.out.println("8- Tancar");
+            System.out.println("\nQuina acció vols realitzar?");
 
-            opcio = validarInt(lector);
+            do {
+                opcio = validarInt(lector);
+                if ((opcio < 1) || (opcio > 8)){
+                    System.out.println("Has d'introduir un número de l'1 al 8:");
+                }
+            } while ((opcio < 1) || (opcio > 8));
+
+            ArrayList<professo> professosAL = new ArrayList<>();
+            ArrayList<secretari> secretarisAL = new ArrayList<>();
+            ArrayList<alumne> alumnesAL = new ArrayList<>();
+            ArrayList<impartir> impartirAL = new ArrayList<>();
+
+            lleguirFitxersProfeSecrAlumImpa(rutaTotsArxius, professosAL,secretarisAL, alumnesAL, impartirAL);
+
+
 
             if(opcio==1){
             }else if(opcio == 2){
@@ -497,6 +515,34 @@ public class Main {
             }else if(opcio == 8){
                 Notes();
             }
+        }
+    }
+
+    private void lleguirFitxersProfeSecrAlumImpa(File rutaTotsArxius, ArrayList<professo> professosAL, ArrayList<secretari> secretarisAL, ArrayList<alumne> alumnesAL, ArrayList<impartir> impartirAL) {
+        try {//Lleguir fitxer professors
+            FileInputStream fisProfes = new FileInputStream(rutaTotsArxius+ "\\" + "professors.txt");
+            ObjectInputStream oisProfes = new ObjectInputStream(fisProfes);
+            while (fisProfes.available() > 0){
+                professo prof = (professo) oisProfes.readObject();
+                professosAL.add(prof);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        //Lleguir fitxer secretari
+        try {
+            FileInputStream fisProfes = new FileInputStream(rutaTotsArxius+ "\\" + "secretari.txt");
+            ObjectInputStream oisProfes = new ObjectInputStream(fisProfes);
+            while (fisProfes.available() > 0){
+                secretari secre = (secretari) oisProfes.readObject();
+                secretarisAL.add(secre);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
