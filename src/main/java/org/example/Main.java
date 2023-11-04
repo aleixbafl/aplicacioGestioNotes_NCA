@@ -56,6 +56,7 @@ public class Main {
                         if (usuari.getContrasenya().equals(contrasenya)){
                             System.out.println("\nUsuari correcte");
                             usuariExist = true;
+                            secretari = usuari.get
                             ois.close();
                             fis.close();
                             return usuariExist;
