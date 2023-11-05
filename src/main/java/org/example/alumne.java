@@ -20,9 +20,18 @@ public class alumne extends persona implements Serializable {
         this.expedient = expedient;
     }
 
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
     @Override
     public String toString() {
         return super.toString() +
-                "\nSeguretat Social:    " + expedient;
+                "\nExpedient:" + expedient +
+                "\mMatricula='" + matricula;
     }
 }
