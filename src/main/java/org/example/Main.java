@@ -349,7 +349,7 @@ public class Main {
             System.out.println("Introdueix la ruta i el nom del fitxer (ex: C:\\carpeta\\alumnes.txt):");
             String ruta = lleguirString(lector);
 
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta, true));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta));
             oos.writeObject(NouSecretari);
             oos.close();
 
@@ -378,7 +378,7 @@ public class Main {
             System.out.println("Introdueix la ruta i el nom del fitxer (ex: C:\\carpeta\\alumnes.dat):");
             String ruta = lleguirString(lector);
 
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta, true));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta));
             oos.writeObject(NouAlumne);
             oos.close();
 
@@ -414,7 +414,7 @@ public class Main {
             System.out.println("Introdueix la ruta i el nom del fitxer (ex: C:\\carpeta\\alumnes.dat):");
             String ruta = lleguirString(lector);
 
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta, true));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta));
             oos.writeObject(novaAsignatura);
             oos.close();
 
@@ -441,7 +441,7 @@ public class Main {
             System.out.println("Introdueix la ruta i el nom del fitxer (ex: C:\\carpeta\\alumnes.dat):");
             String ruta = lleguirString(lector);
 
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta, true));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta));
             oos.writeObject(NouProfessor);
             oos.close();
 
