@@ -347,9 +347,10 @@ public class Main {
             if(opcio==1){
             }else if(opcio == 2){
             }else if(opcio == 3){
-            }else if(opcio == 4){
-                Notes();
             }
+        }
+        if(opcio == 4){
+            Notes();
         }
     }
     //OPCIONS SECRETARIA
@@ -399,6 +400,18 @@ public class Main {
                     professosAL.add(nouProfe);
                 }
             }else if(opcio == 2){
+                int num = 0;
+                System.out.println("Tria el profesor que vols eliminar:");
+                for (professo profe : professosAL){
+                    num++;
+                    System.out.println(num + ". " + profe.getDNI() + " " + profe.getNom() + " " + profe.getCognom());
+                }
+                int numRemove = validarInt(lector);
+                while ((numRemove < 1) || (numRemove > num)){
+                    System.out.println("El número a de ser del 1 al " + num + ":");
+                    numRemove = validarInt(lector);
+                }
+                professosAL.remove(numRemove - 1);
             }else if(opcio == 3){
                 System.out.println("\nQuants secretaris vols introduir?");
                 int numSecretaris = noNegatiu(lector);
@@ -415,6 +428,18 @@ public class Main {
                     secretarisAL.add(nouSecretari);
                 }
             }else if(opcio == 4){
+                int num = 0;
+                System.out.println("Tria el/la secretari/a que vols eliminar:");
+                for (secretari secre : secretarisAL){
+                    num++;
+                    System.out.println(num + ". " + secre.getDNI() + " " + secre.getNom() + " " + secre.getCognom());
+                }
+                int numRemove = validarInt(lector);
+                while ((numRemove < 1) || (numRemove > num)){
+                    System.out.println("El número a de ser del 1 al " + num + ":");
+                    numRemove = validarInt(lector);
+                }
+                secretarisAL.remove(numRemove - 1);
             }else if(opcio == 5){
                 System.out.println("\nQuants alumnes vols introduir?");
                 int numAlumnes = noNegatiu(lector);
@@ -433,10 +458,29 @@ public class Main {
                     alumnesAL.add(nouAlumne);
                 }
             }else if(opcio == 6){
+                int num = 0;
+                System.out.println("Tria l'alumne que vols eliminar:");
+                for (alumne alumn : alumnesAL){
+                    num++;
+                    System.out.println(num + ". " + alumn.getDNI() + " " + alumn.getNom() + " " + alumn.getCognom());
+                }
+                int numRemove = validarInt(lector);
+                while ((numRemove < 1) || (numRemove > num)){
+                    System.out.println("El número a de ser del 1 al " + num + ":");
+                    numRemove = validarInt(lector);
+                }
+                alumnesAL.remove(numRemove - 1);
             }else if(opcio == 7){
-            }else if(opcio == 8){
-                Notes();
+                for (impartir imparti : impartirAL){
+                    System.out.println("\nDNI Alumne: " + imparti.getDniAlumne());
+                    for (String notesNom : imparti.getActivitatsNomNotes()){
+                        System.out.println(notesNom);
+                    }
+                }
             }
+        }
+        if(opcio == 8){
+            Notes();
         }
     }
 
