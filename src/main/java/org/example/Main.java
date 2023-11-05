@@ -27,7 +27,7 @@ public class Main {
             if (secretari){
                 OpcionesSecretaria(lector, rutaTotsArxius);
             } else {
-                OpcionsProfessor(lector);
+                OpcionsProfessor(lector, usuari);
             }
         }
     }
@@ -332,7 +332,7 @@ public class Main {
     }
 
     //OPCIONS PROFESSOR
-    private void OpcionsProfessor(Scanner lector){
+    private void OpcionsProfessor(Scanner lector, String dniProfe){
         int opcio = 0;
 
         while(opcio!=4){
