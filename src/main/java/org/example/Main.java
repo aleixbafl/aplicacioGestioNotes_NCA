@@ -400,6 +400,20 @@ public class Main {
                 }
             }else if(opcio == 2){
             }else if(opcio == 3){
+                System.out.println("\nQuants secretaris vols introduir?");
+                int numSecretaris = noNegatiu(lector);
+                for (int i = 0; i < numSecretaris; i++){
+                    System.out.println("\nDNI:");
+                    String DNI = validarDNI(lector);
+                    System.out.println("\nNom");
+                    String nom = lleguirString(lector);
+                    System.out.println("\nCognom");
+                    String cognom = lleguirString(lector);
+                    System.out.println("\nSeguretat Social");
+                    String segurSocial = lleguirString(lector);
+                    secretari nouSecretari = new secretari(DNI, nom, cognom, segurSocial);
+                    secretarisAL.add(nouSecretari);
+                }
             }else if(opcio == 4){
             }else if(opcio == 5){
             }else if(opcio == 6){
