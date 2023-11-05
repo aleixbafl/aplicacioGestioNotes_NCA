@@ -3,18 +3,18 @@ package org.example;
 import java.io.Serializable;
 
 public class professo extends persona implements Serializable {
-    private int seguretatSocial;
+    private String seguretatSocial;
 
-    public professo(String DNI, String nom, String cognom, int seguretatSocial) {
+    public professo(String DNI, String nom, String cognom, String seguretatSocial) {
         super(DNI, nom, cognom);
         this.seguretatSocial = seguretatSocial;
     }
 
-    public int getSeguretatSocial() {
+    public String getSeguretatSocial() {
         return seguretatSocial;
     }
 
-    public void setSeguretatSocial(int seguretatSocial) {
+    public void setSeguretatSocial(String seguretatSocial) {
         this.seguretatSocial = seguretatSocial;
     }
 

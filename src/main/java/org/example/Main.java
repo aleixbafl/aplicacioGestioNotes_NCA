@@ -434,7 +434,7 @@ public class Main {
             System.out.println("Introdueix els cognoms del professor");
             String cognomsProfessor = lleguirString(lector);
             System.out.println("Introdueix el seu numero de la SS");
-            int numeroSSProfessor = validarInt(lector);
+            String numeroSSProfessor = lleguirString(lector);
 
             professo NouProfessor = new professo(DNIProfessor,nomProfessor,cognomsProfessor,numeroSSProfessor);
 
@@ -502,10 +502,21 @@ public class Main {
             ArrayList<impartir> impartirAL = new ArrayList<>();
 
             lleguirFitxersProfeSecrAlumImpa(rutaTotsArxius, professosAL,secretarisAL, alumnesAL, impartirAL);
-
-
-
             if(opcio==1){
+                System.out.println("\nQuants professors vols introduir?");
+                int numProfes = noNegatiu(lector);
+                for (int i = 0; i < numProfes; i++){
+                    System.out.println("\nDNI:");
+                    String DNI = validarDNI(lector);
+                    System.out.println("\nNom");
+                    String nom = lleguirString(lector);
+                    System.out.println("\nCognom");
+                    String cognom = lleguirString(lector);
+                    System.out.println("\nSeguretat Social");
+                    String segurSocial = lleguirString(lector);
+                    professo nouProfe = new professo(DNI, nom, cognom, segurSocial);
+                    professosAL.add(nouProfe);
+                }
             }else if(opcio == 2){
             }else if(opcio == 3){
             }else if(opcio == 4){
@@ -516,6 +527,15 @@ public class Main {
                 Notes();
             }
         }
+    }
+
+    private int noNegatiu(Scanner lector) {
+        int num = validarInt(lector);
+        while (num < 0){
+            System.out.println("No pot ser un número negatiu (0 per a sortir):");
+            num = validarInt(lector);
+        }
+        return num;
     }
 
     private void lleguirFitxersProfeSecrAlumImpa(File rutaTotsArxius, ArrayList<professo> professosAL, ArrayList<secretari> secretarisAL, ArrayList<alumne> alumnesAL, ArrayList<impartir> impartirAL) {
@@ -538,6 +558,32 @@ public class Main {
             while (fisProfes.available() > 0){
                 secretari secre = (secretari) oisProfes.readObject();
                 secretarisAL.add(secre);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        //Lleguir fitxer Alumne
+        try {
+            FileInputStream fisProfes = new FileInputStream(rutaTotsArxius+ "\\" + "alumnes.txt");
+            ObjectInputStream oisProfes = new ObjectInputStream(fisProfes);
+            while (fisProfes.available() > 0){
+                alumne alum = (alumne) oisProfes.readObject();
+                alumnesAL.add(alum);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        //Lleguir fitxer Alumne
+        try {
+            FileInputStream fisProfes = new FileInputStream(rutaTotsArxius+ "\\" + "impartir.txt");
+            ObjectInputStream oisProfes = new ObjectInputStream(fisProfes);
+            while (fisProfes.available() > 0){
+                impartir impar = (impartir) oisProfes.readObject();
+                impartirAL.add(impar);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
