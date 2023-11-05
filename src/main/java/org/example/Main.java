@@ -416,6 +416,22 @@ public class Main {
                 }
             }else if(opcio == 4){
             }else if(opcio == 5){
+                System.out.println("\nQuants alumnes vols introduir?");
+                int numAlumnes = noNegatiu(lector);
+                for (int i = 0; i < numAlumnes; i++){
+                    System.out.println("\nDNI:");
+                    String DNI = validarDNI(lector);
+                    System.out.println("\nNom");
+                    String nom = lleguirString(lector);
+                    System.out.println("\nCognom");
+                    String cognom = lleguirString(lector);
+                    System.out.println("\nMatricula");
+                    String matricula = lleguirString(lector);
+                    System.out.println("\nExpedient");
+                    String expedient = lleguirString(lector);
+                    alumne nouAlumne = new alumne(DNI, nom, cognom, expedient, matricula);
+                    alumnesAL.add(nouAlumne);
+                }
             }else if(opcio == 6){
             }else if(opcio == 7){
             }else if(opcio == 8){

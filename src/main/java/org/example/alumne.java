@@ -32,6 +32,6 @@ public class alumne extends persona implements Serializable {
     public String toString() {
         return super.toString() +
                 "\nExpedient:" + expedient +
-                "\mMatricula='" + matricula;
+                "\nMatricula='" + matricula;
     }
 }
